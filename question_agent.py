@@ -2,8 +2,14 @@ from langchain_ollama import OllamaLLM
 from rag import searcher
 from sql_agent import retrieve
 from langchain.schema import HumanMessage, AIMessage
-
+import os
 llm = OllamaLLM(model="llama3")
+def get_run_number(directory: str, prefix: str) -> int: 
+    files = [f for f in os.listdir(directory) if f.startswith(prefix)] 
+    if not files: 
+        return 1 
+    run_numbers = [int(f.split('_')[-1].split('.')[0]) for f in files] 
+    return max(run_numbers) + 1
 
 def answer(user_query: str, chat_history: list):
     retrieve1 = searcher(user_query)  
@@ -36,5 +42,19 @@ def answer(user_query: str, chat_history: list):
 
     ai_response = llm.invoke(message)
 
+    directory="static"
+    run_number=get_run_number(directory,"response")
+    os.makedirs(directory, exist_ok=True)
+    # # Save the retrieved information to files
+    # with open(os.path.join(directory, f"retrieve1_{run_number}.txt"), "w", encoding="utf-8") as f: 
+    #     f.write(retrieve1_text) 
+    # with open(os.path.join(directory, f"retrieve2_{run_number}.txt"), "w", encoding="utf-8") as f: 
+    #     f.write(retrieve2_text)
+    # Save the AI response to a file 
+    with open(os.path.join(directory, f"response_{run_number}.txt"), "w", encoding="utf-8") as f: 
+        f.write(ai_response)
+    # Save the user query to a file 
+    with open(os.path.join(directory, f"user_query_{run_number}.txt"), "w", encoding="utf-8") as f: 
+        f.write(user_query)
     return ai_response
 

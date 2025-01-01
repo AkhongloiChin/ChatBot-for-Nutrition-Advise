@@ -31,6 +31,9 @@ nutrition_advise = Route(
         "Can you suggest a healthy breakfast option?",
         "Is avocado a good choice for a snack?",
         "What vitamins should I take daily?"
+        "Creat a diet plan?"
+        "Does 300gram of meat contain enough protein to meet an adult daily protein?"
+        "How many pineapple does it take to replace 300 grams of peach in term of vitamins?"    
     ]
 )
 
@@ -41,7 +44,7 @@ encoder.score_threshold = 0.3
 
 rl = RouteLayer(encoder = encoder, routes = routes)
 '''
-def router(query : str):
+def router(query: str, chat_history):
     print(">Router")
     route = rl(query)
     if route.name == 'small_talk':
