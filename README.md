@@ -1,31 +1,46 @@
-<h1> Xử lý ngôn ngữ tự nhiên - CS221.P11 </h1>
-<h2> Giới thiệu môn học </h2>
-<ul>
-<li>Tên môn học: Xử lý ngôn ngữ tự nhiên</li>
-<li>Niên khóa: 2024-2025</li>
-<li>Giảng viên hướng dẫn: Nguyễn Đức Vũ, Đặng Văn Thìn</li>
-</ul>
-<h2> Thành viên nhóm </h2>
-<table>
-  <tr>
-    <th align="left"> Họ và tên </th>
-    <th align="left"> MSSV </th>
-    <th align="left"> Email </th>
-  </tr>
-  <tr>
-    <th align="left"> Hoàng Công Chiến </th>
-    <th align="left"> 22520155 </th>
-    <th align="left"> <a href="22520155@gm.uit.edu.vn" >22520155@gm.uit.edu.vn</a> </th>
-  </tr>
-  <tr>
-    <th align="left"> Đào Minh Hải </th>
-    <th align="left"> 22520379 </th>
-    <th align="left"> <a href="22520379@gm.uit.edu.vn" >21521009@gm.uit.edu.vn</a> </th>
-  </tr>
-  <tr>
-    <th align="left"> Nguyễn Quang Vũ </th>
-    <th align="left"> 21522801 </th>
-    <th align="left"> <a href="21522801@gm.uit.edu.vn" >21522801@gm.uit.edu.vn</a> </th>
-  </tr>
-</table>
+# Nutritional Advisor Chatbot
 
+An intelligent AI-powered chatbot that provides personalized nutritional advice through dynamic few-shot prompting, semantic routing, and real-time data enrichment using Wikipedia. Designed to adapt to user preferences and handle ambiguous ingredient queries with ease.
+
+![Pipeline Overview](assets/pipeline.png)
+
+---
+
+## Key Features
+
+- **FAISS-Based Ingredient Vector Store**: Retrieves structured nutrition data using a dense embedding space.
+- **Wikipedia API Integration**: Enriches ambiguous or uncommon food queries with real-time knowledge.
+- **Semantic Routing**: Automatically routes user input to one of several specialized processing pipelines (e.g., Q&A, diet tracking).
+- **Dynamic Few-Shot Prompting**: Selects relevant examples on the fly to improve prompt quality and model response accuracy.
+- **Cross-Encoder Reranking**: Reranks final outputs to prioritize accuracy and context relevance.
+- **LLaMA3-Powered Responses**: Utilizes the LLaMA3 language model for fluent, context-aware replies.
+
+---
+
+## Pipeline Overview
+
+User queries are routed via a **Semantic Router**, which classifies input into one of three categories:
+
+1. **Small Talk**  
+   - Passed directly to LLaMA3 for a conversational reply.
+
+2. **Nutritional Question Answering**  
+   - Uses dynamic few-shot prompting to generate an SQL query based on the user input.
+   - Queries a structured nutrition database for numerical data (e.g., calories, protein).
+   - Simultaneously retrieves supplementary information via the Wikipedia API.
+   - Both sets of information are combined and passed into LLaMA3 for response generation.
+
+3. **Diet Tracking**  
+   - Extracts food items and portion sizes from user input.
+   - Retrieves nutritional data for the extracted items.
+   - Uses a cross-encoder to rerank and select the most relevant match.
+   - Saves the selected results into a user-specific tracking database.
+
+---
+
+## Setup Instructions
+- Download [Ollama](https://ollama.com)  
+- Run: `ollama pull llama3`  
+- Install dependencies with `pip install -r requirements.txt`
+
+#how to run: `streamlit run main.py`
