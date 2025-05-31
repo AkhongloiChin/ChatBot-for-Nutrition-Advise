@@ -8,7 +8,6 @@ An intelligent AI-powered chatbot that provides personalized nutritional advice 
 
 ## Key Features
 
-- **FAISS-Based Ingredient Vector Store**: Retrieves structured nutrition data using a dense embedding space.
 - **Wikipedia API Integration**: Enriches ambiguous or uncommon food queries with real-time knowledge.
 - **Semantic Routing**: Automatically routes user input to one of several specialized processing pipelines (e.g., Q&A, diet tracking).
 - **Dynamic Few-Shot Prompting**: Selects relevant examples on the fly to improve prompt quality and model response accuracy.
